@@ -31,11 +31,14 @@
         "commander": "^7.1.0",
         "dotenv": "^8.2.0",
         "ethers": "^5.0.31",
+        "fluent-ffmpeg": "^2.1.2",
         "lodash": "^4.17.21",
         "memoizee": "^0.4.15",
+        "node-record-lpcm16": "^1.0.1",
         "table": "^6.0.7"
     },
     "devDependencies": {
+        "@types/fluent-ffmpeg": "^2.1.20",
         "@types/lodash": "^4.14.168",
         "@types/memoizee": "^0.4.5",
         "@types/node": "^14.14.31",

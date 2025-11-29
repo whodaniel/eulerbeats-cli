@@ -1,3 +1,4 @@
+export * from './audioRecord'
 export * from './listPrintHolders'
 export * from './originalOwnershipHistory'
 export * from './royalties'

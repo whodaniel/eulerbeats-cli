@@ -13,6 +13,8 @@ import {
     listPrintHolders,
     royaltiesAction,
     snapshotHolders,
+    recordAudioAction,
+    transcodeAudioAction,
 } from './actions'
 
 dotenv.config()
@@ -100,11 +102,47 @@ function addSnapshotCommand() {
         .action(snapshotHolders)
 }
 
+function addAudioCommands() {
+    const audioCommand = program
+        .command('audio')
+        .description('Audio recording and transcoding utilities')
+
+    audioCommand
+        .command('record')
+        .description('Record audio from your microphone')
+        .option('-d, --duration <seconds>', 'Recording duration in seconds', parseFloat)
+        .option('-o, --output <path>', 'Output file path')
+        .option(
+            '-f, --format <format>',
+            'Output format (mp3, wav, ogg, flac, m4a)',
+            'wav'
+        )
+        .option('-s, --sample-rate <rate>', 'Sample rate in Hz', parseInt, 16000)
+        .option('-c, --channels <count>', 'Number of channels', parseInt, 1)
+        .option('-t, --transcode', 'Transcode to specified format', false)
+        .option('-k, --keep-original', 'Keep original WAV file after transcoding', false)
+        .action(recordAudioAction)
+
+    audioCommand
+        .command('transcode <input>')
+        .description('Transcode audio file to different format')
+        .requiredOption(
+            '-f, --format <format>',
+            'Output format (mp3, wav, ogg, flac, m4a)'
+        )
+        .option('-o, --output <path>', 'Output file path')
+        .option('-b, --bitrate <rate>', 'Audio bitrate (e.g., 192k, 320k)')
+        .option('-s, --sample-rate <rate>', 'Sample rate in Hz', parseInt)
+        .option('-c, --channels <count>', 'Number of channels', parseInt)
+        .action(transcodeAudioAction)
+}
+
 
 async function main() {
     addOriginalsCommand()
     addPrintsCommand()
     addSnapshotCommand()
+    addAudioCommands()
 
     await program.parseAsync()
 }
